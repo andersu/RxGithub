@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="no.zredna.rxgithub.view.MainActivity">
 
     <EditText
@@ -14,23 +15,16 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/username"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGithubInformation"
+        android:layout_marginTop="50dp"
         />
 
     <Button
-        android:id="@+id/buttonGithubInformation"
+        android:id="@+id/buttonGitHubInformation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/get_github_information"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"
         android:padding="10dp"
-        />
-</android.support.constraint.ConstraintLayout>
+        android:layout_marginTop="20dp" />
+</LinearLayout>
