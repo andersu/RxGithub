@@ -1,4 +1,4 @@
-package no.zredna.rxgithub.view;
+package no.zredna.rxgithub.view.github;
 
 import no.zredna.rxgithub.model.github.GitHubInformation;
 

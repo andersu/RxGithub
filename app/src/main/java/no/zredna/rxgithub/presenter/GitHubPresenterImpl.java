@@ -4,7 +4,7 @@ import android.util.Log;
 
 import no.zredna.rxgithub.interactor.GitHubInteractor;
 import no.zredna.rxgithub.model.github.GitHubInformation;
-import no.zredna.rxgithub.view.GitHubView;
+import no.zredna.rxgithub.view.github.GitHubView;
 
 public class GitHubPresenterImpl implements GitHubPresenter {
     private static final String TAG = "GitHubPresenterImpl";

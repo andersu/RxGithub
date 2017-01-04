@@ -1,10 +1,11 @@
-package no.zredna.rxgithub.view;
+package no.zredna.rxgithub.view.github;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -21,15 +22,11 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private static final String TAG = "GitHubActivity";
 
     private GitHubPresenter presenter;
+    private GitHubAdapter gitHubAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
-    @BindView(R.id.textViewUsername)
-    TextView textViewUsername;
-
-    @BindView(R.id.textViewName)
-    TextView textViewName;
-
-    @BindView(R.id.textViewPublicRepos)
-    TextView textViewPublicRepos;
+    @BindView(R.id.recyclerViewGithub)
+    RecyclerView recyclerViewGithub;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +45,19 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
                 presenter.onCreate(username);
             }
         }
+
+        initRepoRecyclerView();
+    }
+
+    private void initRepoRecyclerView() {
+        layoutManager = new LinearLayoutManager(this);
+        recyclerViewGithub.setLayoutManager(layoutManager);
+        gitHubAdapter = new GitHubAdapter();
+        recyclerViewGithub.setAdapter(gitHubAdapter);
     }
 
     @Override
     public void setInformation(GitHubInformation gitHubInformation) {
-        textViewUsername.setText(gitHubInformation.getUser().getLogin());
-        textViewName.setText(gitHubInformation.getUser().getName());
-        textViewPublicRepos.setText(String.valueOf(gitHubInformation.getUser().getPublicRepos()));
+        gitHubAdapter.setGitHubInformation(gitHubInformation);
     }
 }

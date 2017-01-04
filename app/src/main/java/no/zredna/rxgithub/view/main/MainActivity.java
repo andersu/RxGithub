@@ -1,4 +1,4 @@
-package no.zredna.rxgithub.view;
+package no.zredna.rxgithub.view.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
         router = new RouterImpl();
     }
 

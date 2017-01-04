@@ -3,7 +3,7 @@ package no.zredna.rxgithub.router;
 import android.content.Context;
 import android.content.Intent;
 
-import no.zredna.rxgithub.view.GitHubActivity;
+import no.zredna.rxgithub.view.github.GitHubActivity;
 
 public class RouterImpl implements Router {
 

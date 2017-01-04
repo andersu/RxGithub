@@ -21,7 +21,7 @@ public class GitHubInformation {
         return repos;
     }
 
-    public long getWaitedMillis() {
-        return waitedMillis;
+    public String getWaitedMillisText() {
+        return String.valueOf(waitedMillis) + "ms";
     }
 }
