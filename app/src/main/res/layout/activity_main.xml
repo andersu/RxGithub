@@ -23,8 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/get_github_information"
-        android:background="@color/accent"
+        android:background="@drawable/button_background"
         android:textColor="@android:color/white"
         android:padding="10dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:enabled="false"/>
 </LinearLayout>

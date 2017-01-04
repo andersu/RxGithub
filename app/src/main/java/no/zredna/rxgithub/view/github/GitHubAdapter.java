@@ -55,30 +55,38 @@ public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_HEADER:
-                ViewHolderHeader viewHolderHeader = (ViewHolderHeader) holder;
-
-                if (position == 0) {
-                    viewHolderHeader.textViewTitle.setText(USER_TITLE);
-                } else {
-                    viewHolderHeader.textViewTitle.setText(REPOS_TITLE);
-                }
+                bindViewHolderHeader((ViewHolderHeader) holder, position);
                 break;
             case VIEW_TYPE_USER:
-                User user = gitHubInformation.getUser();
-
-                ViewHolderUser viewHolderUser = (ViewHolderUser) holder;
-                viewHolderUser.textViewUsername.setText(user.getLogin());
-                viewHolderUser.textViewName.setText(user.getName());
-                viewHolderUser.textViewPublicRepos.setText(String.valueOf(user.getPublicRepos()));
-                viewHolderUser.textViewWaitingTime.setText(gitHubInformation.getWaitedMillisText());
+                bindViewHolderUser((ViewHolderUser) holder);
                 break;
             case VIEW_TYPE_REPO:
-                Repo repo = gitHubInformation.getRepos().get(position - 1); // - 1 because position 0 is the user item
-
-                ViewHolderRepo viewHolderRepo = (ViewHolderRepo) holder;
-                viewHolderRepo.textViewRepoName.setText(repo.getName());
-                viewHolderRepo.textViewRepoCreated.setText(repo.getCreatedFormattedString());
+                bindViewHolderRepo((ViewHolderRepo) holder, position);
         }
+    }
+
+    private void bindViewHolderHeader(ViewHolderHeader holder, int position) {
+        if (position == 0) {
+            holder.textViewTitle.setText(USER_TITLE);
+        } else {
+            holder.textViewTitle.setText(REPOS_TITLE);
+        }
+    }
+
+    private void bindViewHolderRepo(ViewHolderRepo holder, int position) {
+        Repo repo = gitHubInformation.getRepos().get(position - 1); // - 1 because position 0 is the user item
+
+        holder.textViewRepoName.setText(repo.getName());
+        holder.textViewRepoCreated.setText(repo.getCreatedFormattedString());
+    }
+
+    private void bindViewHolderUser(ViewHolderUser holder) {
+        User user = gitHubInformation.getUser();
+
+        holder.textViewUsername.setText(user.getLogin());
+        holder.textViewName.setText(user.getName());
+        holder.textViewPublicRepos.setText(String.valueOf(user.getPublicRepos()));
+        holder.textViewWaitingTime.setText(gitHubInformation.getWaitedMillisText());
     }
 
     @Override

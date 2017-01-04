@@ -3,6 +3,7 @@ package no.zredna.rxgithub.view.github;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,21 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         GitHubInteractorImpl gitHubInteractor = new GitHubInteractorImpl(new GitHubServiceProvider());
         presenter = new GitHubPresenterImpl(this, gitHubInteractor);
 
+        addUpArrowToActionBar();
+
+        handleIntent();
+
+        initRepoRecyclerView();
+    }
+
+    private void addUpArrowToActionBar() {
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void handleIntent() {
         Intent intent = getIntent();
 
         if (intent != null) {
@@ -45,8 +61,6 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
                 presenter.onCreate(username);
             }
         }
-
-        initRepoRecyclerView();
     }
 
     private void initRepoRecyclerView() {
