@@ -1,13 +1,10 @@
-package no.zredna.rxgithub.view.github;
+package no.zredna.rxgithub.view.github.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import no.zredna.rxgithub.R;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.model.github.Repo;
@@ -36,18 +33,18 @@ public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_HEADER:
-                View headerView = LayoutInflater.from(parent.getContext())
+                HeaderItemView headerItemView = (HeaderItemView) LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_header, parent, false);
-                return new ViewHolderHeader(headerView);
+                return new ViewHolderHeader(headerItemView);
             case VIEW_TYPE_USER:
-                View userView = LayoutInflater.from(parent.getContext())
+                UserItemView userItemView = (UserItemView) LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_user, parent, false);
-                return new ViewHolderUser(userView);
+                return new ViewHolderUser(userItemView);
             default: // VIEW_TYPE_REPO
-                View repoView = LayoutInflater.from(parent.getContext())
+                RepoItemView repoItemView = (RepoItemView) LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_repo, parent, false);
 
-                return new ViewHolderRepo(repoView);
+                return new ViewHolderRepo(repoItemView);
         }
     }
 
@@ -67,26 +64,20 @@ public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void bindViewHolderHeader(ViewHolderHeader holder, int position) {
         if (position == 0) {
-            holder.textViewTitle.setText(USER_TITLE);
+            holder.headerItemView.bindTo(USER_TITLE);
         } else {
-            holder.textViewTitle.setText(REPOS_TITLE);
+            holder.headerItemView.bindTo(REPOS_TITLE);
         }
     }
 
     private void bindViewHolderRepo(ViewHolderRepo holder, int position) {
         Repo repo = gitHubInformation.getRepos().get(position - 1); // - 1 because position 0 is the user item
-
-        holder.textViewRepoName.setText(repo.getName());
-        holder.textViewRepoCreated.setText(repo.getCreatedFormattedString());
+        holder.repoItemView.bindTo(repo);
     }
 
     private void bindViewHolderUser(ViewHolderUser holder) {
         User user = gitHubInformation.getUser();
-
-        holder.textViewUsername.setText(user.getLogin());
-        holder.textViewName.setText(user.getName());
-        holder.textViewPublicRepos.setText(String.valueOf(user.getPublicRepos()));
-        holder.textViewWaitingTime.setText(gitHubInformation.getWaitedMillisText());
+        holder.userItemView.bindTo(user, gitHubInformation.getWaitedMillisText());
     }
 
     @Override
@@ -112,44 +103,31 @@ public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     static class ViewHolderHeader extends RecyclerView.ViewHolder {
-        @BindView(R.id.textViewTitle)
-        public TextView textViewTitle;
+        private HeaderItemView headerItemView;
 
-        public ViewHolderHeader(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public ViewHolderHeader(HeaderItemView headerItemView) {
+            super(headerItemView);
+            this.headerItemView = headerItemView;
         }
     }
 
     static class ViewHolderUser extends RecyclerView.ViewHolder {
-        @BindView(R.id.textViewUsername)
-        TextView textViewUsername;
+        private UserItemView userItemView;
 
-        @BindView(R.id.textViewName)
-        TextView textViewName;
+        public ViewHolderUser(UserItemView userItemView) {
+            super(userItemView);
 
-        @BindView(R.id.textViewPublicRepos)
-        TextView textViewPublicRepos;
-
-        @BindView(R.id.textViewWaitingTime)
-        TextView textViewWaitingTime;
-
-        public ViewHolderUser(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+            this.userItemView = userItemView;
         }
     }
 
     static class ViewHolderRepo extends RecyclerView.ViewHolder {
-        @BindView(R.id.textViewRepoName)
-        public TextView textViewRepoName;
+        private RepoItemView repoItemView;
 
-        @BindView(R.id.textViewRepoCreated)
-        public TextView textViewRepoCreated;
+        public ViewHolderRepo(RepoItemView repoItemView) {
+            super(repoItemView);
 
-        public ViewHolderRepo(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+            this.repoItemView = repoItemView;
         }
     }
 }

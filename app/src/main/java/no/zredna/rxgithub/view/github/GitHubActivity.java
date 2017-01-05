@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +17,7 @@ import no.zredna.rxgithub.presenter.GitHubPresenter;
 import no.zredna.rxgithub.presenter.GitHubPresenterImpl;
 import no.zredna.rxgithub.router.RouterImpl;
 import no.zredna.rxgithub.service.GitHubServiceProvider;
+import no.zredna.rxgithub.view.github.list.GitHubAdapter;
 
 public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private static final String TAG = "GitHubActivity";
