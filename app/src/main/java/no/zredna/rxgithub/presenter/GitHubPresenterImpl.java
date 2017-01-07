@@ -34,11 +34,10 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     private void handleError(Throwable throwable) {
-        Log.d(TAG, "Error :(");
+        gitHubView.failedToGetInformation();
     }
 
     private void handleSuccess(GitHubInformation gitHubInformation) {
-        Log.d(TAG, "Success :)");
         gitHubView.setInformation(gitHubInformation);
     }
 }

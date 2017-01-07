@@ -22,7 +22,6 @@ public class GitHubInteractorImpl implements GitHubInteractor {
         gitHubService = gitHubServiceProvider.provideGithubService();
     }
 
-
     @Override
     /*
      * doOnComplete will only be called for the first of getUser and listRepos to finish.
@@ -33,21 +32,18 @@ public class GitHubInteractorImpl implements GitHubInteractor {
                 gitHubService.getUser(username)
                         .doOnComplete(() -> {
                             onCompleteMillis = new Date().getTime();
-                            Log.d(TAG, "getUser onCompleted: " + onCompleteMillis);
                         }),
                 gitHubService.listRepos(username)
                         .doOnComplete(() -> {
                             onCompleteMillis = new Date().getTime();
-                            Log.d(TAG, "listRepos onCompleted: " + onCompleteMillis);
                         }),
                 (user, repos) -> {
                     long waitedMillis = new Date().getTime() - onCompleteMillis;
-                    Log.d(TAG, "waitedMillis: " + waitedMillis);
                     return new GitHubInformation(user, repos, waitedMillis);
                 })
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
                 // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(Schedulers.io());
     }
 }

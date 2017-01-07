@@ -45,6 +45,12 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         initRepoRecyclerView();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
     private void addUpArrowToActionBar() {
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -73,5 +79,10 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     @Override
     public void setInformation(GitHubInformation gitHubInformation) {
         gitHubAdapter.setGitHubInformation(gitHubInformation);
+    }
+
+    @Override
+    public void failedToGetInformation() {
+        // TODO
     }
 }
