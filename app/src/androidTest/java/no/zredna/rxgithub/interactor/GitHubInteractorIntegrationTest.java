@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.service.GitHubServiceProvider;
 
@@ -14,7 +15,8 @@ public class GitHubInteractorIntegrationTest {
 
     @Before
     public void setUp() {
-        gitHubInteractor = new GitHubInteractorImpl(new GitHubServiceProvider());
+        gitHubInteractor = new GitHubInteractorImpl(new GitHubServiceProvider(),
+                AndroidSchedulers.mainThread());
     }
     @Test
     public void getGitHubInformation() throws Exception {

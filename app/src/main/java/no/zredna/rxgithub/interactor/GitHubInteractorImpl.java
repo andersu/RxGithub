@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.Date;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import no.zredna.rxgithub.model.github.GitHubInformation;
@@ -15,11 +16,13 @@ public class GitHubInteractorImpl implements GitHubInteractor {
     private static final String TAG = "GithubInteractorImpl";
 
     private GitHubService gitHubService;
+    private Scheduler observeOn;
 
     private long onCompleteMillis;
 
-    public GitHubInteractorImpl(GitHubServiceProvider gitHubServiceProvider) {
+    public GitHubInteractorImpl(GitHubServiceProvider gitHubServiceProvider, Scheduler observeOn) {
         gitHubService = gitHubServiceProvider.provideGithubService();
+        this.observeOn = observeOn;
     }
 
     @Override
@@ -31,19 +34,19 @@ public class GitHubInteractorImpl implements GitHubInteractor {
         return Observable.zip(
                 gitHubService.getUser(username)
                         .doOnComplete(() -> {
-                            onCompleteMillis = new Date().getTime();
+                            onCompleteMillis = System.currentTimeMillis();
                         }),
                 gitHubService.listRepos(username)
                         .doOnComplete(() -> {
-                            onCompleteMillis = new Date().getTime();
+                            onCompleteMillis = System.currentTimeMillis();
                         }),
                 (user, repos) -> {
-                    long waitedMillis = new Date().getTime() - onCompleteMillis;
+                    long waitedMillis = System.currentTimeMillis() - onCompleteMillis;
                     return new GitHubInformation(user, repos, waitedMillis);
                 })
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
                 // Be notified on the main thread
-                .observeOn(Schedulers.io());
+                .observeOn(observeOn);
     }
 }

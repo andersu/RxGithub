@@ -1,23 +1,15 @@
 package no.zredna.rxgithub.presenter;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.schedulers.TestScheduler;
-import io.reactivex.subscribers.TestSubscriber;
 import no.zredna.rxgithub.RxGitHubTest;
 import no.zredna.rxgithub.interactor.GitHubInteractor;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.view.github.GitHubView;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

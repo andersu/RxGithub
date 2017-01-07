@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import no.zredna.rxgithub.R;
 import no.zredna.rxgithub.interactor.GitHubInteractorImpl;
 import no.zredna.rxgithub.model.github.GitHubInformation;
@@ -35,7 +36,8 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         setContentView(R.layout.activity_github_information);
         ButterKnife.bind(this);
 
-        GitHubInteractorImpl gitHubInteractor = new GitHubInteractorImpl(new GitHubServiceProvider());
+        GitHubInteractorImpl gitHubInteractor = new GitHubInteractorImpl(new GitHubServiceProvider(),
+                AndroidSchedulers.mainThread());
         presenter = new GitHubPresenterImpl(this, gitHubInteractor);
 
         addUpArrowToActionBar();

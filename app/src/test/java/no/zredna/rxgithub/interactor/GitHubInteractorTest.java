@@ -8,6 +8,8 @@ import org.mockito.Mock;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import no.zredna.rxgithub.RxGitHubTest;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.model.github.Repo;
@@ -19,7 +21,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class GitHubInteractorTest extends RxGitHubTest {
-    @InjectMocks
     private GitHubInteractorImpl gitHubInteractor;
 
     @Mock
@@ -39,6 +40,8 @@ public class GitHubInteractorTest extends RxGitHubTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        gitHubInteractor = new GitHubInteractorImpl(gitHubServiceProvider, Schedulers.trampoline());
+
         when(gitHubServiceProvider.provideGithubService()).thenReturn(gitHubService);
         when(gitHubService.getUser(username)).thenReturn(Observable.fromArray(user));
         when(gitHubService.listRepos(username)).thenReturn(Observable.fromArray(repos));
