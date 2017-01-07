@@ -103,4 +103,11 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
                 .setAction(R.string.retry, view -> getGitHubInformation())
                 .show();
     }
+
+    @Override
+    public void userNotFound() {
+        Snackbar.make(layoutRoot, R.string.user_not_found, Snackbar.LENGTH_LONG)
+                .setAction(R.string.go_back, view -> finish())
+                .show();
+    }
 }

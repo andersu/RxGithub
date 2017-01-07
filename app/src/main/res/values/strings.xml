@@ -4,4 +4,6 @@
     <string name="get_github_information">Get GitHub Information</string>
     <string name="failed_to_get_github_information">Failed to get github information</string>
     <string name="retry">Retry</string>
+    <string name="user_not_found">User not found</string>
+    <string name="go_back">Go back</string>
 </resources>

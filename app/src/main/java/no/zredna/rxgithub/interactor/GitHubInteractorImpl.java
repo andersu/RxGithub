@@ -46,7 +46,7 @@ public class GitHubInteractorImpl implements GitHubInteractor {
                 })
                 // Run on a background thread
                 .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
+                // Be notified on the injected thread
                 .observeOn(observeOn);
     }
 }

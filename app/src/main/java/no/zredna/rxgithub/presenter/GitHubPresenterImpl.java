@@ -2,6 +2,8 @@ package no.zredna.rxgithub.presenter;
 
 import android.util.Log;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import no.zredna.rxgithub.interactor.GitHubInteractor;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.view.github.GitHubView;
@@ -34,6 +36,13 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     private void handleError(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException httpException = (HttpException) throwable;
+            if (httpException.code() == 404) {
+                gitHubView.userNotFound();
+                return;
+            }
+        }
         gitHubView.failedToGetInformation();
     }
 
