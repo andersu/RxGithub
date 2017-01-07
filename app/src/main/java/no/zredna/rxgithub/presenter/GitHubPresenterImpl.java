@@ -18,7 +18,7 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     @Override
-    public void onCreate(String username) {
+    public void shouldGetGithubInformation(String username) {
         getGitHubInformation(username);
     }
 

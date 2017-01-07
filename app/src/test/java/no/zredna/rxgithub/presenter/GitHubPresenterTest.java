@@ -32,7 +32,7 @@ public class GitHubPresenterTest extends RxGitHubTest {
     public void onCreate_callsSetInformation_withGitHubInformationFromObservable() throws Exception {
         when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.fromArray(gitHubInformation));
 
-        gitHubPresenter.onCreate(username);
+        gitHubPresenter.shouldGetGithubInformation(username);
 
         verify(gitHubView).setInformation(gitHubInformation);
     }
@@ -41,7 +41,7 @@ public class GitHubPresenterTest extends RxGitHubTest {
     public void onCreate_callsFailedToGetInformation_withErrorFromObservable() throws Exception {
         when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.error(new Error()));
 
-        gitHubPresenter.onCreate(username);
+        gitHubPresenter.shouldGetGithubInformation(username);
 
         verify(gitHubView).failedToGetInformation();
     }

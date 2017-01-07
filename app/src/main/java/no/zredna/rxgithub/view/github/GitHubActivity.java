@@ -3,10 +3,12 @@ package no.zredna.rxgithub.view.github;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +29,9 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private GitHubAdapter gitHubAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    @BindView(R.id.layoutRoot)
+    View layoutRoot;
+
     @BindView(R.id.recyclerViewGithub)
     RecyclerView recyclerViewGithub;
 
@@ -42,7 +47,7 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
 
         addUpArrowToActionBar();
 
-        handleIntent();
+        getGitHubInformation();
 
         initRepoRecyclerView();
     }
@@ -60,15 +65,24 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         }
     }
 
-    private void handleIntent() {
+    private void getGitHubInformation() {
+        String username = getUsernameFromIntent();
+        if (username != null) {
+            presenter.shouldGetGithubInformation(username);
+        }
+    }
+
+    @Nullable
+    private String getUsernameFromIntent() {
+        String username = null;
+
         Intent intent = getIntent();
 
         if (intent != null) {
-            String username = intent.getStringExtra(RouterImpl.EXTRA_USERNAME);
-            if (username != null) {
-                presenter.onCreate(username);
-            }
+            username = intent.getStringExtra(RouterImpl.EXTRA_USERNAME);
         }
+
+        return username;
     }
 
     private void initRepoRecyclerView() {
@@ -85,6 +99,8 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
 
     @Override
     public void failedToGetInformation() {
-        // TODO
+        Snackbar.make(layoutRoot, R.string.failed_to_get_github_information, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, view -> getGitHubInformation())
+                .show();
     }
 }
