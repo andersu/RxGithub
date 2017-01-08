@@ -10,4 +10,18 @@
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+
+    <no.zredna.rxgithub.view.loading.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/imageViewGitHubLogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/github_logo"
+            android:layout_gravity="center"
+            android:contentDescription="@string/github_logo_animation" />
+    </no.zredna.rxgithub.view.loading.LoadingView>
 </android.support.design.widget.CoordinatorLayout>

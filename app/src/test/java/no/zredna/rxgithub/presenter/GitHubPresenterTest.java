@@ -1,8 +1,12 @@
 package no.zredna.rxgithub.presenter;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import java.net.HttpURLConnection;
 
 import io.reactivex.Observable;
 import no.zredna.rxgithub.RxGitHubTest;
@@ -26,22 +30,35 @@ public class GitHubPresenterTest extends RxGitHubTest {
     @Mock
     GitHubInformation gitHubInformation;
 
+    @Mock
+    HttpException notFoundException;
+
     private String username = "username";
 
     @Test
-    public void onCreate_callsSetInformation_withGitHubInformationFromObservable() throws Exception {
+    public void shouldGetGitHubInformationcallsSetInformation_withGitHubInformationFromObservable() throws Exception {
         when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.fromArray(gitHubInformation));
 
-        gitHubPresenter.shouldGetGithubInformation(username);
+        gitHubPresenter.shouldGetGitHubInformation(username);
 
         verify(gitHubView).setInformation(gitHubInformation);
     }
 
     @Test
-    public void onCreate_callsFailedToGetInformation_withErrorFromObservable() throws Exception {
+    public void shouldGetGitHubInformationcallsUserNotFound_whenNotFoundFromObservable() throws Exception {
+        when(notFoundException.code()).thenReturn(HttpURLConnection.HTTP_NOT_FOUND);
+        when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.error(notFoundException));
+
+        gitHubPresenter.shouldGetGitHubInformation(username);
+
+        verify(gitHubView).failedToGetInformation();
+    }
+
+    @Test
+    public void shouldGetGitHubInformationcallsFailedToGetInformation_whenOtherErrorFromObservable() throws Exception {
         when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.error(new Error()));
 
-        gitHubPresenter.shouldGetGithubInformation(username);
+        gitHubPresenter.shouldGetGitHubInformation(username);
 
         verify(gitHubView).failedToGetInformation();
     }

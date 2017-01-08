@@ -1,15 +1,14 @@
 package no.zredna.rxgithub.presenter;
 
-import android.util.Log;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+import java.net.HttpURLConnection;
 
 import no.zredna.rxgithub.interactor.GitHubInteractor;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.view.github.GitHubView;
 
 public class GitHubPresenterImpl implements GitHubPresenter {
-    private static final String TAG = "GitHubPresenterImpl";
 
     private GitHubView gitHubView;
     private GitHubInteractor gitHubInteractor;
@@ -20,7 +19,7 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     @Override
-    public void shouldGetGithubInformation(String username) {
+    public void shouldGetGitHubInformation(String username) {
         getGitHubInformation(username);
     }
 
@@ -30,15 +29,17 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     private void getGitHubInformation(String username) {
+        gitHubView.showLoadingScreen();
         gitHubInteractor.getGitHubInformation(username).subscribe(
                 this::handleSuccess,
                 this::handleError);
     }
 
     private void handleError(Throwable throwable) {
+        gitHubView.hideLoadingScreen();
         if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;
-            if (httpException.code() == 404) {
+            if (httpException.code() == HttpURLConnection.HTTP_NOT_FOUND) {
                 gitHubView.userNotFound();
                 return;
             }
@@ -47,6 +48,7 @@ public class GitHubPresenterImpl implements GitHubPresenter {
     }
 
     private void handleSuccess(GitHubInformation gitHubInformation) {
+        gitHubView.hideLoadingScreen();
         gitHubView.setInformation(gitHubInformation);
     }
 }

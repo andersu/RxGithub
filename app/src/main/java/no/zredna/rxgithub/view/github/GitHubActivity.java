@@ -21,6 +21,7 @@ import no.zredna.rxgithub.presenter.GitHubPresenterImpl;
 import no.zredna.rxgithub.router.RouterImpl;
 import no.zredna.rxgithub.service.GitHubServiceProvider;
 import no.zredna.rxgithub.view.github.list.GitHubAdapter;
+import no.zredna.rxgithub.view.loading.LoadingView;
 
 public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private static final String TAG = "GitHubActivity";
@@ -34,6 +35,9 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
 
     @BindView(R.id.recyclerViewGithub)
     RecyclerView recyclerViewGithub;
+
+    @BindView(R.id.loadingView)
+    LoadingView loadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private void getGitHubInformation() {
         String username = getUsernameFromIntent();
         if (username != null) {
-            presenter.shouldGetGithubInformation(username);
+            presenter.shouldGetGitHubInformation(username);
         }
     }
 
@@ -90,6 +94,17 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         recyclerViewGithub.setLayoutManager(layoutManager);
         gitHubAdapter = new GitHubAdapter();
         recyclerViewGithub.setAdapter(gitHubAdapter);
+    }
+
+    @Override
+    public void showLoadingScreen() {
+        loadingView.setVisibility(View.VISIBLE);
+        loadingView.startAnimation();
+    }
+
+    @Override
+    public void hideLoadingScreen() {
+        loadingView.setVisibility(View.GONE);
     }
 
     @Override
