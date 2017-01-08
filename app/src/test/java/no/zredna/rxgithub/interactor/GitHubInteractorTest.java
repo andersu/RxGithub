@@ -40,11 +40,12 @@ public class GitHubInteractorTest extends RxGitHubTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        gitHubInteractor = new GitHubInteractorImpl(gitHubServiceProvider, Schedulers.trampoline());
 
         when(gitHubServiceProvider.provideGithubService()).thenReturn(gitHubService);
         when(gitHubService.getUser(username)).thenReturn(Observable.fromArray(user));
         when(gitHubService.listRepos(username)).thenReturn(Observable.fromArray(repos));
+
+        gitHubInteractor = new GitHubInteractorImpl(gitHubServiceProvider, Schedulers.trampoline());
     }
 
     @Test

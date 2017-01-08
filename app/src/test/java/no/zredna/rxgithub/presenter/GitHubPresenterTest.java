@@ -2,6 +2,7 @@ package no.zredna.rxgithub.presenter;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,6 +14,10 @@ import no.zredna.rxgithub.RxGitHubTest;
 import no.zredna.rxgithub.interactor.GitHubInteractor;
 import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.view.github.GitHubView;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import okio.BufferedSource;
+import retrofit2.Response;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,9 +35,6 @@ public class GitHubPresenterTest extends RxGitHubTest {
     @Mock
     GitHubInformation gitHubInformation;
 
-    @Mock
-    HttpException notFoundException;
-
     private String username = "username";
 
     @Test
@@ -41,17 +43,36 @@ public class GitHubPresenterTest extends RxGitHubTest {
 
         gitHubPresenter.shouldGetGitHubInformation(username);
 
+        verify(gitHubView).hideLoadingScreen();
         verify(gitHubView).setInformation(gitHubInformation);
     }
 
     @Test
     public void shouldGetGitHubInformationcallsUserNotFound_whenNotFoundFromObservable() throws Exception {
-        when(notFoundException.code()).thenReturn(HttpURLConnection.HTTP_NOT_FOUND);
+        // Mockito cannot mock final classes, so making our own mock
+        HttpException notFoundException = new HttpException(Response.error(HttpURLConnection.HTTP_NOT_FOUND, new ResponseBody() {
+            @Override
+            public MediaType contentType() {
+                return null;
+            }
+
+            @Override
+            public long contentLength() {
+                return 0;
+            }
+
+            @Override
+            public BufferedSource source() {
+                return null;
+            }
+        }));
+
         when(gitHubInteractor.getGitHubInformation(username)).thenReturn(Observable.error(notFoundException));
 
         gitHubPresenter.shouldGetGitHubInformation(username);
 
-        verify(gitHubView).failedToGetInformation();
+        verify(gitHubView).hideLoadingScreen();
+        verify(gitHubView).userNotFound();
     }
 
     @Test
@@ -60,6 +81,7 @@ public class GitHubPresenterTest extends RxGitHubTest {
 
         gitHubPresenter.shouldGetGitHubInformation(username);
 
+        verify(gitHubView).hideLoadingScreen();
         verify(gitHubView).failedToGetInformation();
     }
 }

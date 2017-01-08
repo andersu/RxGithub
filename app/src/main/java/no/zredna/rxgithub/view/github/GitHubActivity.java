@@ -50,10 +50,18 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
         presenter = new GitHubPresenterImpl(this, gitHubInteractor);
 
         addUpArrowToActionBar();
+        setPageTitle();
 
         getGitHubInformation();
 
         initRepoRecyclerView();
+    }
+
+    private void setPageTitle() {
+        String username = getUsernameFromIntent();
+        if (username != null) {
+            getSupportActionBar().setTitle(username);
+        }
     }
 
     @Override

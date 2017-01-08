@@ -37,6 +37,7 @@ public class GitHubPresenterImpl implements GitHubPresenter {
 
     private void handleError(Throwable throwable) {
         gitHubView.hideLoadingScreen();
+
         if (throwable instanceof HttpException) {
             HttpException httpException = (HttpException) throwable;
             if (httpException.code() == HttpURLConnection.HTTP_NOT_FOUND) {
