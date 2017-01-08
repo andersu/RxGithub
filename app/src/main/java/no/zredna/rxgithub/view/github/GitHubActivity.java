@@ -24,11 +24,8 @@ import no.zredna.rxgithub.view.github.list.GitHubAdapter;
 import no.zredna.rxgithub.view.loading.LoadingView;
 
 public class GitHubActivity extends AppCompatActivity implements GitHubView {
-    private static final String TAG = "GitHubActivity";
-
     private GitHubPresenter presenter;
     private GitHubAdapter gitHubAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     @BindView(R.id.layoutRoot)
     View layoutRoot;
@@ -60,7 +57,10 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     private void setPageTitle() {
         String username = getUsernameFromIntent();
         if (username != null) {
-            getSupportActionBar().setTitle(username);
+            ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.setTitle(username);
+            }
         }
     }
 
@@ -98,7 +98,7 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
     }
 
     private void initRepoRecyclerView() {
-        layoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewGithub.setLayoutManager(layoutManager);
         gitHubAdapter = new GitHubAdapter();
         recyclerViewGithub.setAdapter(gitHubAdapter);
@@ -106,8 +106,8 @@ public class GitHubActivity extends AppCompatActivity implements GitHubView {
 
     @Override
     public void showLoadingScreen() {
-        loadingView.setVisibility(View.VISIBLE);
         loadingView.startAnimation();
+        loadingView.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -12,6 +12,7 @@ import no.zredna.rxgithub.model.github.User;
 public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int USER_HEADER_POSITION = 0;
+    private static final int USER_POSITION = 1;
     private static final int REPOS_HEADER_POSITION = 2;
 
     private static final String USER_TITLE = "User";
@@ -91,39 +92,39 @@ public class GitHubAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         switch (position) {
-            case 0:
-            case 2:
+            case USER_HEADER_POSITION:
+            case REPOS_HEADER_POSITION:
                 return VIEW_TYPE_HEADER;
-            case 1:
+            case USER_POSITION:
                 return VIEW_TYPE_USER;
             default:
                 return VIEW_TYPE_REPO;
         }
     }
 
-    static class ViewHolderHeader extends RecyclerView.ViewHolder {
+    private static class ViewHolderHeader extends RecyclerView.ViewHolder {
         private HeaderItemView headerItemView;
 
-        public ViewHolderHeader(HeaderItemView headerItemView) {
+        ViewHolderHeader(HeaderItemView headerItemView) {
             super(headerItemView);
             this.headerItemView = headerItemView;
         }
     }
 
-    static class ViewHolderUser extends RecyclerView.ViewHolder {
+    private static class ViewHolderUser extends RecyclerView.ViewHolder {
         private UserItemView userItemView;
 
-        public ViewHolderUser(UserItemView userItemView) {
+        ViewHolderUser(UserItemView userItemView) {
             super(userItemView);
 
             this.userItemView = userItemView;
         }
     }
 
-    static class ViewHolderRepo extends RecyclerView.ViewHolder {
+    private static class ViewHolderRepo extends RecyclerView.ViewHolder {
         private RepoItemView repoItemView;
 
-        public ViewHolderRepo(RepoItemView repoItemView) {
+        ViewHolderRepo(RepoItemView repoItemView) {
             super(repoItemView);
 
             this.repoItemView = repoItemView;

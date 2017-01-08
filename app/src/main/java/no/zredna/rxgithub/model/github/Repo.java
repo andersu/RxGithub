@@ -1,13 +1,14 @@
 package no.zredna.rxgithub.model.github;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.Date;
-
+@SuppressWarnings("unused") // Fields are set by Gson when deserializing
 public class Repo {
     private String name;
 
@@ -30,8 +31,14 @@ public class Repo {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public String getCreatedFormattedString() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM dd, YYYY");
-        return new DateTime(createdAt).toString(dateTimeFormatter);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MMM d, YYYY");
+
+        try {
+            return new DateTime(createdAt).toString(dateTimeFormatter);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 }

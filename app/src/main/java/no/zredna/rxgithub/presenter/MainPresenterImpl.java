@@ -1,5 +1,7 @@
 package no.zredna.rxgithub.presenter;
 
+import android.support.annotation.NonNull;
+
 import no.zredna.rxgithub.view.main.MainView;
 
 public class MainPresenterImpl implements MainPresenter {
@@ -11,7 +13,7 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
-    public void onUsernameTextChanged(String usernameText) {
+    public void onUsernameTextChanged(@NonNull String usernameText) {
         if (usernameText.isEmpty()) {
             mainView.disableButton();
         } else {

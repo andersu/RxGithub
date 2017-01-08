@@ -9,7 +9,6 @@ import no.zredna.rxgithub.model.github.GitHubInformation;
 import no.zredna.rxgithub.view.github.GitHubView;
 
 public class GitHubPresenterImpl implements GitHubPresenter {
-
     private GitHubView gitHubView;
     private GitHubInteractor gitHubInteractor;
 
